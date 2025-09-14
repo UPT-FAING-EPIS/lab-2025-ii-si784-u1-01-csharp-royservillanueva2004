@@ -122,7 +122,11 @@ namespace Bank.Domain.Tests
 8. En el terminal, ejecutar las pruebas de lo nostruiido hasta el momento:
 ```Bash
 dotnet test --collect:"XPlat Code Coverage"
+
 ```
+
+![image](/assets/8.PNG)
+
 > Resultado
 ```Bash
 Failed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms
@@ -136,6 +140,9 @@ dotnet tool install -g dotnet-sonarscanner
 Puede invocar la herramienta con el comando siguiente: dotnet-sonarscanner
 La herramienta "dotnet-sonarscanner" (versión 'X.X.X') se instaló correctamente
 ```
+
+![image](/assets/9.PNG)
+
 10. En el terminal, ejecutar :
 ```Bash
 dotnet sonarscanner begin /k:"PROJECT_KEY" /d:sonar.token="TOKEN" /d:sonar.host.url="https://sonarcloud.io" /o:"ORGANIZATION" /d:sonar.cs.opencover.reportsPaths="*/*/*/coverage.opencover.xml"
@@ -145,22 +152,34 @@ dotnet sonarscanner begin /k:"PROJECT_KEY" /d:sonar.token="TOKEN" /d:sonar.host.
 > - ORGANIZATION: es el nombre de la organización generada en Sonar Source
 > - PROJECT_KEY: es el nombre de la llave proyecto que previamente se genero en la pagina en Sonar Source
 
+![image](/assets/10.PNG)
 12. En el terminal, ejecutar:
 ```Bash
 dotnet build --no-incremental
 dotnet test --collect:"XPlat Code Coverage;Format=opencover"
 ```
+
+![image](/assets/11.PNG)
+
+![image](/assets/12.PNG)
+
 13. Ejecutar nuevamente el paso 8 para lo cual se obtendra una respuesta similar a la siguiente:
 ```Bash
 dotnet sonarscanner end /d:sonar.token="TOKEN"
 ```
+
 14. En la pagina de Sonar Source verificar el resultado del analisis.
 
 ![image](https://github.com/UPT-FAING-EPIS/lab_calidad_01/assets/10199939/4e4892d3-71e2-4437-9713-a270ebf61b06)
 
+![image](/assets/13.PNG)
+
+
 15. Abrir un nuevo navegador de internet o pestaña con la url de su repositorio de Github ```https://github.com/UPT-FAING-EPIS/nombre_de_su_repositorio```, abrir la pestaña con el nombre *Settings*, en la opción *Secrets and Actions*, selecionar Actions y hacer click en el botón *New Respository Token*, en la ventana colocar en Nombre (Name): SONAR_TOKEN y en Secreto (Secret): el valor del token de Sonar Cloud, guardado previamente
 
 ![image](https://github.com/user-attachments/assets/cf0b874f-7eb9-4888-a37d-9a975316d53f)
+
+![image](/assets/14.PNG)
 
 16. En el VS Code, proceder a crear la carpeta .github/workflow y dentro de esta crear el archivo sonar.yml con el siguiente contenido, reemplazar los valores ORGANIZATION y PROJECT_KEY con los valores obtenidos de SonarCloud
 ```Yaml
@@ -198,10 +217,13 @@ jobs:
           dotnet build
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 ```
-
+![image](/assets/15.PNG)
 ---
 ## Actividades Encargadas
 1. Adicionar un metodos de prueba para verificar el método de crédito.
+
+![image](/assets/16.PNG)
+
 2. Adjuntar la captura donde se evidencia el incremento del valor de cobertura en SonarCloud en un archivo cobertura.png.
 3. Adicionar a la automatizacion la construcción del archivo .nuget y la publicación como paquete en su repositorio de Github
 4. Adicionar a la automatizacion la generación del release de la versión 1.0.0 del nuget, debe indicar las modificaciones del paquete en base a los comentarios de los commits realizados
