@@ -1,0 +1,8 @@
+﻿D:\proyec\lab-2025-ii-si784-u1-01-csharp-royservillanueva2004\Bank\Bank.Domain.Tests\BanckAccountTests.cs
+C:\Users\Usuario\.nuget\packages\microsoft.net.test.sdk\17.8.0\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\Usuario\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.exe
+C:\Users\Usuario\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.dll
+D:\proyec\lab-2025-ii-si784-u1-01-csharp-royservillanueva2004\Bank\Bank.Domain.Tests\TestResults\34afafd1-055b-423f-b823-1bd0a65e3039\coverage.cobertura.xml
+C:\Users\Usuario\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Usuario\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Usuario\.nuget\packages\mstest.testadapter\3.1.1\build\net6.0\Microsoft.TestPlatform.AdapterUtilities.dll
