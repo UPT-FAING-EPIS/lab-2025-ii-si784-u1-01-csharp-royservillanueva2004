@@ -222,8 +222,137 @@ jobs:
 ## Actividades Encargadas
 1. Adicionar un metodos de prueba para verificar el método de crédito.
 
-![image](/assets/16.PNG)
+  1.1. Agregamos un nuevo metodo credito en Bank/Bank.Domain.Tests/BanckAccountTests.cs
+  ```C#
+    [TestMethod]
+          public void Credit_WithValidAmount_UpdatesBalance()
+          {
+              // Arrange
+              double beginningBalance = 11.99;
+              double creditAmount = 5.01;
+              double expected = 17.00;
+              BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+              // Act
+              account.Credit(creditAmount);
+
+              // Assert
+              double actual = account.Balance;
+              Assert.AreEqual(expected, actual, 0.001, "Account not credited correctly");
+          }
+  ```
+  1.2. Ejecutar cobertura + enviar a SonarCloud desde Bank/
+
+    ```Bash
+    dotnet sonarscanner begin /k:"royservillanueva2004_apibank" /d:sonar.token="ebf00ab53b4cf908e1beea99d762c208fa87d503" /d:sonar.host.url="https://sonarcloud.io" /o:"royservillanueva2004" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+    dotnet build --no-incremental
+    dotnet test --collect:"XPlat Code Coverage;Format=opencover"
+    dotnet sonarscanner end /d:sonar.token="TOKEN"
+    ```
+    ![image](/assets/17.PNG)
+
+    ![image](/assets/18.PNG)
+
+    ![image](/assets/19.PNG)
+
+    ![image](/assets/20.PNG)
+
+    ![image](/assets/21.PNG)
 
 2. Adjuntar la captura donde se evidencia el incremento del valor de cobertura en SonarCloud en un archivo cobertura.png.
-3. Adicionar a la automatizacion la construcción del archivo .nuget y la publicación como paquete en su repositorio de Github
+
+  ![image](/assets/cobertura.PNG)
+
+3. Adicionar a la automatizacion la construcción del archivo .nuget y la publicación como paquete en su repositorio de 
+
+  3.1 Preparar el archivo Bank.Domain.csproj para empaquetar
+  
+  ```Bash
+  <Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>Bank.Domain</PackageId>
+    <Version>1.0.0</Version> 
+    <Authors>ORGANIZACION</Authors>
+    <Company>ORGANIZACION</Company>
+    <Description>Domain models for Bank.</Description>
+    <RepositoryUrl>URL_REPOSITORIO</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  ```
+  3.2 Editamos .github/workflows/sonar.yml
+
+  ```Yaml
+  name: CI - Build, Test, Sonar & Publish NuGet
+
+env:
+  DOTNET_VERSION: '8.x'
+  SONAR_ORG: 'royservillanueva2004'
+  SONAR_PROJECT: 'royservillanueva2004_apibank'
+  PACKAGE_VERSION: '1.0.0'
+  NUGET_SOURCE_NAME: 'github'
+  NUGET_SOURCE_URL: 'https://nuget.pkg.github.com/UPT-FAING-EPIS/index.json'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-test-sonar-pack-publish:
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore (NuGet)
+        run: dotnet restore
+
+      - name: Show NuGet sources
+        run: dotnet nuget list source
+
+      - name: Install SonarScanner
+        run: dotnet tool install -g dotnet-sonarscanner
+
+      - name: Build, Test & Sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin /k:"${{ env.SONAR_PROJECT }}" /o:"${{ env.SONAR_ORG }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" /d:sonar.qualitygate.wait=true
+          dotnet build --no-incremental
+          dotnet test --collect:"XPlat Code Coverage;Format=opencover"
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Pack NuGet
+        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj -c Release -o out /p:Version=${{ env.PACKAGE_VERSION }}
+
+      - name: Add GitHub Packages source
+        run: dotnet nuget add source ${{ env.NUGET_SOURCE_URL }} --name ${{ env.NUGET_SOURCE_NAME }} --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+
+      - name: Push package to GitHub Packages
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.NUGET_SOURCE_NAME }} --skip-duplicate
+  ```
+
+
+</Project>
 4. Adicionar a la automatizacion la generación del release de la versión 1.0.0 del nuget, debe indicar las modificaciones del paquete en base a los comentarios de los commits realizados

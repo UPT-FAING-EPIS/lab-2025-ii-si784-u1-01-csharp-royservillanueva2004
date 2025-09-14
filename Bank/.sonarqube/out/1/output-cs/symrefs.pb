@@ -1,4 +1,4 @@
-û
+ÿ
 iD:\proyec\lab-2025-ii-si784-u1-01-csharp-royservillanueva2004\Bank\Bank.Domain.Tests\BanckAccountTests.cs
 
  !
@@ -10,4 +10,11 @@ iD:\proyec\lab-2025-ii-si784-u1-01-csharp-royservillanueva2004\Bank\Bank.Domain.
   %
   $
    #
- & ,
+ & ,
+
+ 9
+ #  F V
+ ## '
+ '' $
+   ## && #
+&& ''& ,

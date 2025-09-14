@@ -3,5 +3,5 @@ projectKey=royservillanueva2004_apibank
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.67173
 dashboardUrl=https://sonarcloud.io/dashboard?id=royservillanueva2004_apibank
-ceTaskId=AZlFnEJnUroKsKjspGeI
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZlFnEJnUroKsKjspGeI
+ceTaskId=AZlGo5FHUroKsKjspHqA
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZlGo5FHUroKsKjspHqA
